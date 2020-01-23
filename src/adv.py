@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+import sys 
 
 # Declare all the rooms
 
@@ -36,6 +38,38 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
+
+player1 = Player("Mike", room['foyer'])
+
+while True:
+    
+    print(player1.current_room.name)
+    print(player1.current_room.description)
+
+    input_text = input("#: ")
+    
+    # Quit
+    if input_text == "q":
+        break
+    
+    # Set direction we want to go
+    switch_dict={
+        "n": player1.current_room.n_to,
+        "s": player1.current_room.s_to,
+        "e": player1.current_room.e_to,
+        "w": player1.current_room.w_to,
+    }
+
+    # Choose new room
+    new_room = switch_dict.get(input_text)
+
+    # Default value of any x_to attribute is None. Check if this is a valid direction.
+    if new_room != None:
+        player1.current_room = new_room
+    else:
+        print("Can't go that way.")
+
+
 
 # Make a new player object that is currently in the 'outside' room.
 
