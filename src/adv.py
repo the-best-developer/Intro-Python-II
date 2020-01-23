@@ -39,12 +39,17 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
-player1 = Player("Mike", room['foyer'])
+player1 = Player("Mike", room['outside'])
+
+# Print current player location
+def print_player_location():
+    print(player1.current_room.name + "\n")
+    print(player1.current_room.description + "\n")
+
+# Print at the beginning
+print_player_location()
 
 while True:
-    
-    print(player1.current_room.name)
-    print(player1.current_room.description)
 
     input_text = input("#: ")
     
@@ -65,9 +70,11 @@ while True:
 
     # Default value of any x_to attribute is None. Check if this is a valid direction.
     if new_room != None:
+        # Set new room and print location
         player1.current_room = new_room
+        print_player_location()
     else:
-        print("Can't go that way.")
+        print("Can't go that way. Valid inputs are: (n)orth (s)outh (e)ast (w)est\n")
 
 
 
