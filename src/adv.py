@@ -1,6 +1,15 @@
 from room import Room
 from player import Player
+from item import Item
 import sys 
+
+# Declare items
+
+item = {
+    'torch':  Item("Torch",  "A torch to light the way"),
+    'key':  Item("Key",  "A key to unlock a door"),
+    'apple':  Item("Apple",  "An apple to sate your appetite")
+}
 
 # Declare all the rooms
 
@@ -9,11 +18,11 @@ room = {
                      "North of you, the cave mount beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.""", [ item['torch'], item['apple'] ]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""", [item['key']]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
@@ -22,7 +31,6 @@ to north. The smell of gold permeates the air."""),
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
-
 
 # Link rooms together
 
@@ -41,13 +49,12 @@ room['treasure'].s_to = room['narrow']
 
 player1 = Player("Mike", room['outside'])
 
-# Print current player location
-def print_player_location():
-    print(player1.current_room.name + "\n")
-    print(player1.current_room.description + "\n")
+##################################################
+# Loop start
+##################################################
 
 # Print at the beginning
-print_player_location()
+player1.get_current_room()
 
 while True:
 
@@ -57,24 +64,26 @@ while True:
     if input_text == "q":
         break
     
-    # Set direction we want to go
-    switch_dict={
-        "n": player1.current_room.n_to,
-        "s": player1.current_room.s_to,
-        "e": player1.current_room.e_to,
-        "w": player1.current_room.w_to,
-    }
+    # Print items in current room
+    elif input_text == "look":
+        player1.current_room.get_room_items()
 
-    # Choose new room
-    new_room = switch_dict.get(input_text)
+    elif input_text == "inv":
+        player1.get_inventory()
 
-    # Default value of any x_to attribute is None. Check if this is a valid direction.
-    if new_room != None:
-        # Set new room and print location
-        player1.current_room = new_room
-        print_player_location()
+    elif len(input_text.split(" ")) > 1:
+        action = input_text.split(" ")[0]
+        item = input_text.split(" ")[1]
+
+        if action == "take":
+            player1.set_inventory_item(item)
+
+        elif action == "drop":
+            player1.drop_inventory_item(item)
+    
     else:
-        print("Can't go that way. Valid inputs are: (n)orth (s)outh (e)ast (w)est\n")
+        player1.set_current_room(input_text)
+        
 
 
 
