@@ -44,6 +44,7 @@ class Player:
                 self.current_room.remove_item(i)
                 print("You have picked up a " + i.name + "\n")
                 return
+        print(f"{item} could not be found.")
         return
 
     def drop_inventory_item(self, item):
@@ -54,6 +55,7 @@ class Player:
                     self.inventory.remove(i)
                     print("You have dropped a " + i.name + "\n")
                     return
+        print(f"{item} could not be found.")
         return
 
     def get_inventory(self):

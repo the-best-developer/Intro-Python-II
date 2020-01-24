@@ -68,19 +68,22 @@ while True:
     elif input_text == "look":
         player1.current_room.get_room_items()
 
+    # Print items in inventory
     elif input_text == "inv":
         player1.get_inventory()
 
     elif len(input_text.split(" ")) > 1:
         action = input_text.split(" ")[0]
         item = input_text.split(" ")[1]
-
+        
+        # Pick up item
         if action == "take":
             player1.set_inventory_item(item)
-
+        # Drop item
         elif action == "drop":
             player1.drop_inventory_item(item)
-    
+
+    # Change room
     else:
         player1.set_current_room(input_text)
         
